@@ -13,6 +13,7 @@ public class ImageConverter {
         int height = image.getHeight();
         StringBuilder result = new StringBuilder();
         AsciiImage result_image = new AsciiImage();
+        int ascii_palette_length = ascii_palette.length();
 
         for (int y = 0; y < height; ++y) {
 
@@ -24,7 +25,10 @@ public class ImageConverter {
                 float Y = (R + B + G) / 3.0f / 256.0f;
                 float Y_inv = 1.0f - Y;
 
-                int pos = round((ascii_palette.length() - 1) * (!invert? Y_inv : Y));
+                int pos = round(ascii_palette_length * (!invert? Y_inv : Y));
+                if (pos >= ascii_palette_length) {
+                    pos = ascii_palette_length - 1;
+                }
                 char ch = ascii_palette.charAt(pos);
                 result.append(ch);
             }
@@ -39,15 +43,19 @@ public class ImageConverter {
         int width = image.getWidth();
         int height = image.getHeight();
         BufferedImage result = new BufferedImage(width, height, type);
+        int ascii_palette_length = ascii_palette.length();
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 int ind = ascii_palette.indexOf(image.charAt(j, i));
                 int col;
                 if (invert) {
-                    col = ind * 256 / ascii_palette.length();
+                    col = ind * 256 / ascii_palette_length;
                 }
                 else {
-                    col = (ascii_palette.length() - ind - 1) * 256 / ascii_palette.length();
+                    col = (ascii_palette_length - ind - 1) * 256 / ascii_palette_length;
+                }
+                if (col > 255) {
+                    col = 255;
                 }
                 result.setRGB(j, i, (new Color(col, col, col)).getRGB());
             }

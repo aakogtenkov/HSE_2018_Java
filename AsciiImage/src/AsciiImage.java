@@ -74,7 +74,7 @@ public class AsciiImage {
         for (int i = 0; i < image.length; i++) {
             this.width = image[i].length;
             for (int j = 0; j < image[i].length; j++) {
-                int pos = round((ascii_palette_length - 1) * image[i][j]);
+                int pos = round(ascii_palette_length * image[i][j]);
                 if (pos >= ascii_palette_length) {
                     pos = ascii_palette_length - 1;
                 }
@@ -97,7 +97,7 @@ public class AsciiImage {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 float ind = ascii_palette.indexOf(charAt(j, i));
-                result[i][j] = ind / (ascii_palette_length - 1);
+                result[i][j] = ind / ascii_palette_length;
             }
         }
         return result;

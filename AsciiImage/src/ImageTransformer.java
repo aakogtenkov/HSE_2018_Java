@@ -79,9 +79,10 @@ public class ImageTransformer {
 
     public static AsciiImage invert(AsciiImage image) {
         float[][] gray_image = image.asFloat();
+        float bias = 1.0f / image.getAsciiPalette().length();
         for (int i = 0; i < gray_image.length; i++) {
             for (int j = 0; j < gray_image[i].length; j++) {
-                gray_image[i][j] = max(0, 1 - gray_image[i][j]);
+                gray_image[i][j] = max(0, 1 - gray_image[i][j] - bias);
             }
         }
         return new AsciiImage(gray_image, image.getAsciiPalette());
