@@ -23,6 +23,12 @@ public class Main {
         } catch (Exception e) {
             return;
         }
+        //test image contrast
+        try {
+            ImageIO.write(ImageTransformer.contrast(image, 6, true), "jpg", new File("output_image_contrast.jpg"));
+        } catch (Exception e) {
+            return;
+        }
         ImageConverter converter = new ImageConverter();
         //test converting image to ascii
         AsciiImage ascii_image = converter.imageToAscii(image, false);
@@ -45,6 +51,13 @@ public class Main {
         image = ImageConverter.asciiToImage(ImageTransformer.blur(ascii_image, 3, 1f, 3f), false, BufferedImage.TYPE_INT_RGB);
         try {
             ImageIO.write(image, "jpg", new File("output_ascii_blur.jpg"));
+        } catch (Exception e) {
+            return;
+        }
+        //test ascii contrast
+        image = ImageConverter.asciiToImage(ImageTransformer.contrast(ascii_image, 6, true), false, BufferedImage.TYPE_INT_RGB);
+        try {
+            ImageIO.write(image, "jpg", new File("output_ascii_contrast.jpg"));
         } catch (Exception e) {
             return;
         }

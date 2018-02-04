@@ -191,11 +191,75 @@ public class ImageTransformer {
                 resultR[i][j] /= shade_sum[i][j];
                 resultG[i][j] /= shade_sum[i][j];
                 resultB[i][j] /= shade_sum[i][j];
-                if (resultR[i][j] > 255 || resultB[i][j] > 255 || resultG[i][j] > 255) {
-                    System.out.println("A");
-                    System.out.flush();
-                }
                 result.setRGB(j, i, (new Color(resultR[i][j], resultG[i][j], resultB[i][j])).getRGB());
+            }
+        }
+        return result;
+    }
+
+    public static AsciiImage contrast(AsciiImage image, float contrast_significance, boolean soft_contrast) {
+        if (contrast_significance < 0) {
+            throw new ValueException("contrast_significance must be >= 0");
+        }
+        float[][] gray_image = image.asFloat();
+        int width = image.getWidth();
+        int height = image.getHeight();
+        float[][] result = new float[height][width];
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                result[i][j] = gray_image[i][j] - 0.5f;
+                float mul = 1;
+                if (soft_contrast) {
+                    mul = 0.5f;
+                }
+                if (result[i][j] < 0) {
+                    result[i][j] -= (1.0 / (1 + Math.exp(result[i][j] * contrast_significance)) - 0.5f) * mul;
+                }
+                else {
+                    result[i][j] += (1.0 / (1 + Math.exp(-result[i][j] * contrast_significance)) - 0.5f) * mul;
+                }
+                result[i][j] += 0.5f;
+                result[i][j] = Math.max(0, result[i][j]);
+                result[i][j] = Math.min(1, result[i][j]);
+            }
+        }
+        return new AsciiImage(result, image.getAsciiPalette());
+    }
+
+    public static BufferedImage contrast(BufferedImage image, float contrast_significance, boolean soft_contrast) {
+        if (contrast_significance < 0) {
+            throw new ValueException("contrast_significance must be >= 0");
+        }
+        int width = image.getWidth();
+        int height = image.getHeight();
+        BufferedImage result = new BufferedImage(width, height, image.getType());
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                int rgb = image.getRGB(j, i);
+                Color color = new Color(rgb);
+                int r = color.getRed();
+                int g = color.getGreen();
+                int b = color.getBlue();
+                float[] result_colors = new float[] {(r / 256.0f) - 0.5f,
+                                                    (g / 256.0f) - 0.5f,
+                                                    (b / 256.0f) - 0.5f};
+                for (int c = 0; c < 3; c++) {
+                    float mul = 1;
+                    if (soft_contrast) {
+                        mul = 0.5f;
+                    }
+                    if (result_colors[c] < 0) {
+                        result_colors[c] -= (1.0 / (1 + Math.exp(result_colors[c] * contrast_significance)) - 0.5f) * mul;
+                    }
+                    else {
+                        result_colors[c] += (1.0 / (1 + Math.exp(-result_colors[c] * contrast_significance)) - 0.5f) * mul;
+                    }
+                    result_colors[c] += 0.5;
+                    result_colors[c] = Math.max(0, result_colors[c]);
+                    result_colors[c] = Math.min(1, result_colors[c]);
+                }
+                color = new Color(result_colors[0], result_colors[1], result_colors[2]);
+                result.setRGB(j, i, color.getRGB());
             }
         }
         return result;
