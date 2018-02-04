@@ -198,9 +198,9 @@ public class ImageTransformer {
     }
 
     public static AsciiImage contrast(AsciiImage image, float contrast_significance, boolean soft_contrast) {
-        if (contrast_significance < 0) {
+        /*if (contrast_significance < 0) {
             throw new ValueException("contrast_significance must be >= 0");
-        }
+        }*/
         float[][] gray_image = image.asFloat();
         int width = image.getWidth();
         int height = image.getHeight();
@@ -227,9 +227,9 @@ public class ImageTransformer {
     }
 
     public static BufferedImage contrast(BufferedImage image, float contrast_significance, boolean soft_contrast) {
-        if (contrast_significance < 0) {
+        /*if (contrast_significance < 0) {
             throw new ValueException("contrast_significance must be >= 0");
-        }
+        }*/
         int width = image.getWidth();
         int height = image.getHeight();
         BufferedImage result = new BufferedImage(width, height, image.getType());
