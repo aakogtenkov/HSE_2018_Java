@@ -197,10 +197,10 @@ public class ImageTransformer {
         return result;
     }
 
-    public static AsciiImage contrast(AsciiImage image, float contrast_significance, boolean soft_contrast) {
-        /*if (contrast_significance < 0) {
+    public static AsciiImage contrast(AsciiImage image, float contrast_significance) {
+        if (contrast_significance < 0) {
             throw new ValueException("contrast_significance must be >= 0");
-        }*/
+        }
         float[][] gray_image = image.asFloat();
         int width = image.getWidth();
         int height = image.getHeight();
@@ -208,15 +208,11 @@ public class ImageTransformer {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 result[i][j] = gray_image[i][j] - 0.5f;
-                float mul = 1;
-                if (soft_contrast) {
-                    mul = 0.5f;
-                }
                 if (result[i][j] < 0) {
-                    result[i][j] -= (1.0 / (1 + Math.exp(result[i][j] * contrast_significance)) - 0.5f) * mul;
+                    result[i][j] -= (1.0 / (1 + Math.exp(result[i][j] * contrast_significance)) - 0.5f);
                 }
                 else {
-                    result[i][j] += (1.0 / (1 + Math.exp(-result[i][j] * contrast_significance)) - 0.5f) * mul;
+                    result[i][j] += (1.0 / (1 + Math.exp(-result[i][j] * contrast_significance)) - 0.5f);
                 }
                 result[i][j] += 0.5f;
                 result[i][j] = Math.max(0, result[i][j]);
@@ -226,10 +222,10 @@ public class ImageTransformer {
         return new AsciiImage(result, image.getAsciiPalette());
     }
 
-    public static BufferedImage contrast(BufferedImage image, float contrast_significance, boolean soft_contrast) {
-        /*if (contrast_significance < 0) {
+    public static BufferedImage contrast(BufferedImage image, float contrast_significance) {
+        if (contrast_significance < 0) {
             throw new ValueException("contrast_significance must be >= 0");
-        }*/
+        }
         int width = image.getWidth();
         int height = image.getHeight();
         BufferedImage result = new BufferedImage(width, height, image.getType());
@@ -244,15 +240,11 @@ public class ImageTransformer {
                                                     (g / 256.0f) - 0.5f,
                                                     (b / 256.0f) - 0.5f};
                 for (int c = 0; c < 3; c++) {
-                    float mul = 1;
-                    if (soft_contrast) {
-                        mul = 0.5f;
-                    }
                     if (result_colors[c] < 0) {
-                        result_colors[c] -= (1.0 / (1 + Math.exp(result_colors[c] * contrast_significance)) - 0.5f) * mul;
+                        result_colors[c] -= (1.0 / (1 + Math.exp(result_colors[c] * contrast_significance)) - 0.5f);
                     }
                     else {
-                        result_colors[c] += (1.0 / (1 + Math.exp(-result_colors[c] * contrast_significance)) - 0.5f) * mul;
+                        result_colors[c] += (1.0 / (1 + Math.exp(-result_colors[c] * contrast_significance)) - 0.5f);
                     }
                     result_colors[c] += 0.5;
                     result_colors[c] = Math.max(0, result_colors[c]);
