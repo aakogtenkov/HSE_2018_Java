@@ -256,4 +256,56 @@ public class ImageTransformer {
         }
         return result;
     }
+
+    public static AsciiImage[][] split(AsciiImage image, int num_rows, int num_cols) {
+        if (num_cols <= 0 || num_rows <= 0) {
+            throw new ValueException("num_rows and num_cols must be > 0");
+        }
+        StringBuilder[][] substr = new StringBuilder[num_rows][num_cols];
+        for (int i = 0; i < num_cols; i++) {
+            for (int j = 0; j < num_rows; j++) {
+                substr[j][i] = new StringBuilder();
+            }
+        }
+        int width = image.getWidth();
+        int height = image.getHeight();
+        for (int i = 0; i < height; i++) {
+            int ind_y = Math.round((float)i * (float)(num_rows - 1) / (float)height);
+            for (int j = 0; j < width; j++) {
+                int ind_x = Math.round((float)j * (float)(num_cols - 1) / (float)width);
+                substr[ind_y][ind_x].append(image.charAt(j, i));
+            }
+            for (int j = 0; j < num_cols; j++) {
+                substr[ind_y][j].append('\n');
+            }
+        }
+        AsciiImage[][] images = new AsciiImage[num_rows][num_cols];
+        for (int i = 0; i < num_rows; i++) {
+            for (int j = 0; j < num_cols; j++) {
+                images[i][j] = new AsciiImage(image.getAsciiPalette());
+                images[i][j].setImage(substr[i][j].toString());
+            }
+        }
+        return images;
+    }
+
+    public static AsciiImage concat(AsciiImage[][] images, String ascii_palette) {
+        if (images.length == 0 || images[0].length == 0) {
+            throw new ValueException("Trying to construct image from empty images");
+        }
+        StringBuilder str = new StringBuilder();
+        AsciiImage image = new AsciiImage(ascii_palette);
+        for (int i = 0; i < images.length; i++) {
+            for (int y = 0; y < images[i][0].getHeight(); y++) {
+                for (int j = 0; j < images[i].length; j++) {
+                    for (int x = 0; x < images[i][j].getWidth(); x++) {
+                        str.append(images[i][j].charAt(x, y));
+                    }
+                }
+                str.append('\n');
+            }
+        }
+        image.setImage(str.toString(), ascii_palette);
+        return image;
+    }
 }

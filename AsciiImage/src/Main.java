@@ -5,9 +5,15 @@ import java.io.File;
 public class Main {
 
     public void test(String[] args) {
+        int NUM_ROWS = 2;
+        int NUM_COLS = 2;
         if (args.length < 1) {
             System.out.println("No filename as argument");
             return;
+        }
+        if (args.length >= 3) {
+            NUM_ROWS = Integer.valueOf(args[1]);
+            NUM_COLS = Integer.valueOf(args[2]);
         }
         BufferedImage image;
         try {
@@ -32,6 +38,8 @@ public class Main {
         ImageConverter converter = new ImageConverter();
         //test converting image to ascii
         AsciiImage ascii_image = converter.imageToAscii(image, false);
+        //test splitting and concatenating images
+        ascii_image = ImageTransformer.concat(ImageTransformer.split(ascii_image, 100, 100), ascii_image.getAsciiPalette());
         //test saving ascii
         ascii_image.save("ascii_image.txt");
         //test flipping image, inverting image and converting ascii to image
@@ -54,8 +62,28 @@ public class Main {
         } catch (Exception e) {
             return;
         }
-        //test ascii contrast
-        image = ImageConverter.asciiToImage(ImageTransformer.contrast(ascii_image, 6), false, BufferedImage.TYPE_INT_RGB);
+        //test ascii contrast using multi threading
+        AsciiImage[][] ascii_images = ImageTransformer.split(ascii_image, NUM_ROWS, NUM_COLS);
+        AsciiThreadTransformer[][] threads = new AsciiThreadTransformer[NUM_ROWS][NUM_COLS];
+        for (int i = 0; i < NUM_ROWS; i++) {
+            for (int j = 0; j < NUM_COLS; j++) {
+                threads[i][j] = new AsciiThreadTransformer(ascii_images[i][j], AsciiThreadTransformer.TYPE_TRANSFORM_CONTRAST, 5);
+                threads[i][j].start();
+            }
+        }
+        for (int i = 0; i < NUM_ROWS; i++) {
+            for (int j = 0; j < NUM_COLS; j++) {
+                try {
+                    threads[i][j].join();
+                    ascii_images[i][j] = threads[i][j].getImage();
+                } catch (Exception e) {
+                    return;
+                }
+            }
+        }
+        ascii_image = ImageTransformer.concat(ascii_images, ascii_image.getAsciiPalette());
+
+        image = ImageConverter.asciiToImage(ascii_image, false, BufferedImage.TYPE_INT_RGB);
         try {
             ImageIO.write(image, "jpg", new File("output_ascii_contrast.jpg"));
         } catch (Exception e) {
