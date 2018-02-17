@@ -1,7 +1,6 @@
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.nio.IntBuffer;
 
 public class Main {
 
@@ -82,7 +81,9 @@ public class Main {
         }
 
         //test ascii contrast using multi threading
-        ascii_image = MultiThreadingImageTransformer.contrast(ascii_image, CONTRAST_SIGNIFICANCE, NUM_ROWS, NUM_COLS);
+        AsciiImage[][] ascii_images = ImageTransformer.split(ascii_image, NUM_ROWS, NUM_COLS);
+        ascii_images = MultiThreadingImageTransformer.contrast(ascii_images, CONTRAST_SIGNIFICANCE);
+        ascii_image = ImageTransformer.concat(ascii_images, ascii_image.getAsciiPalette());
         image = ImageConverter.asciiToImage(ascii_image, false, BufferedImage.TYPE_INT_RGB);
         try {
             ImageIO.write(image, "jpg", new File("output_ascii_contrast.jpg"));
