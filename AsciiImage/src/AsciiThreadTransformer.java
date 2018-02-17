@@ -4,9 +4,9 @@ public class AsciiThreadTransformer extends Thread{
     public static char TYPE_TRANSFORM_CONTRAST = 'c';
     public static char TYPE_TRANSFORM_INVERT = 'i';
     public static char TYPE_TRANSFORM_BLUR = 'b';
-    public static char TYPE_TRANSFORM_FLIPX = 'x';
-    public static char TYPE_TRANSFORM_FLIPY = 'y';
-    public static char TYPE_TRANSFORM_FLIPD = 'd';
+    public static char TYPE_TRANSFORM_FLIPX = ImageTransformer.TYPE_FLIP_X;
+    public static char TYPE_TRANSFORM_FLIPY = ImageTransformer.TYPE_FLIP_Y;
+    public static char TYPE_TRANSFORM_FLIPD = ImageTransformer.TYPE_FLIP_DIAG;
     private AsciiImage image;
     private char transform_type;
     private float argfloat1 = 1;
@@ -14,7 +14,7 @@ public class AsciiThreadTransformer extends Thread{
     private int argint1 = 1;
 
     // for blur
-    public AsciiThreadTransformer(AsciiImage image, char transform_type, int radius, float eps, float pow_val) {
+    public AsciiThreadTransformer(AsciiImage image, char transform_type, float eps, float pow_val, int radius) {
         this.image = image;
         this.transform_type = transform_type;
         this.argfloat1 = eps;

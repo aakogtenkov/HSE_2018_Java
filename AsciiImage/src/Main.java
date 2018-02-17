@@ -1,12 +1,17 @@
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.nio.IntBuffer;
 
 public class Main {
 
     public void test(String[] args) {
         int NUM_ROWS = 2;
         int NUM_COLS = 2;
+        float CONTRAST_SIGNIFICANCE = 5;
+        int BLUR_RADIUS = 3;
+        float BLUR_EPS = 1;
+        float BLUR_POW = 3;
         if (args.length < 1) {
             System.out.println("No filename as argument");
             return;
@@ -14,6 +19,18 @@ public class Main {
         if (args.length >= 3) {
             NUM_ROWS = Integer.valueOf(args[1]);
             NUM_COLS = Integer.valueOf(args[2]);
+        }
+        if (args.length >= 4) {
+            CONTRAST_SIGNIFICANCE = Float.valueOf(args[3]);
+        }
+        if (args.length >= 5) {
+            BLUR_RADIUS = Integer.valueOf(args[4]);
+        }
+        if (args.length >= 6) {
+            BLUR_EPS = Float.valueOf(args[5]);
+        }
+        if (args.length >= 7) {
+            BLUR_POW = Float.valueOf(args[6]);
         }
         BufferedImage image;
         try {
@@ -25,13 +42,13 @@ public class Main {
 
         //test image blur
         try {
-            ImageIO.write(ImageTransformer.blur(image, 3, 1f, 3f), "jpg", new File("output_image_blur.jpg"));
+            ImageIO.write(ImageTransformer.blur(image, BLUR_RADIUS, BLUR_EPS, BLUR_POW), "jpg", new File("output_image_blur.jpg"));
         } catch (Exception e) {
             return;
         }
         //test image contrast
         try {
-            ImageIO.write(ImageTransformer.contrast(image, 6f), "jpg", new File("output_image_contrast.jpg"));
+            ImageIO.write(ImageTransformer.contrast(image, CONTRAST_SIGNIFICANCE), "jpg", new File("output_image_contrast.jpg"));
         } catch (Exception e) {
             return;
         }
@@ -55,34 +72,17 @@ public class Main {
         ascii_image = new AsciiImage(ascii_image.asFloat());
         //test asString and flipping ascii
         System.out.println(ImageTransformer.flip(ascii_image, ImageTransformer.TYPE_FLIP_X).asString());
+
         //test ascii blur
-        image = ImageConverter.asciiToImage(ImageTransformer.blur(ascii_image, 3, 1f, 3f), false, BufferedImage.TYPE_INT_RGB);
+        image = ImageConverter.asciiToImage(ImageTransformer.blur(ascii_image, BLUR_RADIUS, BLUR_EPS, BLUR_POW), false, BufferedImage.TYPE_INT_RGB);
         try {
             ImageIO.write(image, "jpg", new File("output_ascii_blur.jpg"));
         } catch (Exception e) {
             return;
         }
-        //test ascii contrast using multi threading
-        AsciiImage[][] ascii_images = ImageTransformer.split(ascii_image, NUM_ROWS, NUM_COLS);
-        AsciiThreadTransformer[][] threads = new AsciiThreadTransformer[NUM_ROWS][NUM_COLS];
-        for (int i = 0; i < NUM_ROWS; i++) {
-            for (int j = 0; j < NUM_COLS; j++) {
-                threads[i][j] = new AsciiThreadTransformer(ascii_images[i][j], AsciiThreadTransformer.TYPE_TRANSFORM_CONTRAST, 5);
-                threads[i][j].start();
-            }
-        }
-        for (int i = 0; i < NUM_ROWS; i++) {
-            for (int j = 0; j < NUM_COLS; j++) {
-                try {
-                    threads[i][j].join();
-                    ascii_images[i][j] = threads[i][j].getImage();
-                } catch (Exception e) {
-                    return;
-                }
-            }
-        }
-        ascii_image = ImageTransformer.concat(ascii_images, ascii_image.getAsciiPalette());
 
+        //test ascii contrast using multi threading
+        ascii_image = MultiThreadingImageTransformer.contrast(ascii_image, CONTRAST_SIGNIFICANCE, NUM_ROWS, NUM_COLS);
         image = ImageConverter.asciiToImage(ascii_image, false, BufferedImage.TYPE_INT_RGB);
         try {
             ImageIO.write(image, "jpg", new File("output_ascii_contrast.jpg"));
