@@ -1,0 +1,40 @@
+#transition_id
+#parent_node_id
+#child_node_id
+#locked
+#answer_id
+#type_question [0 - usual; 1 - common]
+#question_id {if usual} OR keyword_ids {using |}
+#script {<script>\n[SCRIPT]\n</script>\n}
+
+name$Олежа
+
+1$0$0$0$1$0$1
+<script>
+</script>
+2$0$0$0$2$0$2
+<script>
+</script>
+3$0$0$0$3$0$3
+<script>
+</script>
+4$0$0$0$4$0$4
+<script>
+</script>
+5$0$1$0$5$0$5
+<script>
+</script>
+6$0$0$0$6$0$6
+<script>
+</script>
+7$1$0$0$7$0$7
+<script>
+</script>
+8$1$0$0$8$0$8
+<script>
+</script>
+9$0$0$0$9$0$9
+<script>
+end_dialog 2
+end_dialog 0
+</script>
