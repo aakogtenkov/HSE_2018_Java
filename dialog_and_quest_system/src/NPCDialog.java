@@ -177,14 +177,12 @@ public class NPCDialog {
         if (num_question >= 0 && num_question < cur_questions.size()) {
             result = ">> " + cur_questions.get(num_question).getQuestion() + "\n";
             result += npcName + ": " + cur_questions.get(num_question).makeTransition() + "\n";
-            cur_questions.get(num_question).makeTransition();
             this.cur_node_id = cur_questions.get(num_question).getChild();
         }
         else if (num_question >= cur_questions.size() && num_question - cur_questions.size() < cur_keyword_questions.size()) {
             num_question -= cur_questions.size();
             result = ">> " + cur_keyword_questions.get(num_question).getQuestion() + "\n";
             result += npcName + ": " + cur_keyword_questions.get(num_question).makeTransition() + "\n";
-            cur_keyword_questions.get(num_question).makeTransition();
             this.cur_node_id = cur_keyword_questions.get(num_question).getChild();
         }
         else {
@@ -206,13 +204,22 @@ public class NPCDialog {
         for (DialogTransition transition : transitions) {
             if (transition.getId() == transition_id) {
                 transition.lock();
-                System.out.println("B");
+            }
+        }
+        for (KeywordTransition transition : keyword_transitions) {
+            if (transition.getId() == transition_id) {
+                transition.lock();
             }
         }
     }
 
     public void unlock_transition(int transition_id) {
         for (DialogTransition transition : transitions) {
+            if (transition.getId() == transition_id) {
+                transition.unlock();
+            }
+        }
+        for (KeywordTransition transition : keyword_transitions) {
             if (transition.getId() == transition_id) {
                 transition.unlock();
             }

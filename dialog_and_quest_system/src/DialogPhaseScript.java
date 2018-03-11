@@ -19,4 +19,8 @@ public class DialogPhaseScript implements RunnableScript {
             npcs.get(npc_id).startDialog();
         }
     }
+
+    public boolean isSuccess() {
+        return true;
+    }
 }

@@ -16,7 +16,8 @@ public class CommandLine {
             System.out.println("    /talk [npc id]");
             System.out.println("    /npc_list");
             System.out.println("    /show_inventory [npc id]");
-            System.out.println("    /give_item [npc id] [item id] [number of items]");
+            System.out.println("    /add_item [npc id] [item id] [number of items]");
+            System.out.println("    /remove_item [npc id] [item id] [number of items]");
         }
         else if (substr.length == 2 && substr[0].equals("/talk")) {
             try {
@@ -42,13 +43,24 @@ public class CommandLine {
 
             }
         }
-        else if (substr.length == 4 && substr[0].equals("/give_item")) {
+        else if (substr.length == 4 && substr[0].equals("/add_item")) {
             try {
                 int npc_id = Integer.parseInt(substr[1]);
                 int item_id = Integer.parseInt(substr[2]);
                 int number = Math.max(0, Integer.parseInt(substr[3]));
                 npcs.get(npc_id).addItem(item_id, number);
                 System.out.println("Adding " + String.valueOf(number) + " item(s) with id " + String.valueOf(item_id));
+            } catch (Exception e) {
+
+            }
+        }
+        else if (substr.length == 4 && substr[0].equals("/remove_item")) {
+            try {
+                int npc_id = Integer.parseInt(substr[1]);
+                int item_id = Integer.parseInt(substr[2]);
+                int number = Math.max(0, Integer.parseInt(substr[3]));
+                npcs.get(npc_id).removeItem(item_id, number);
+                System.out.println("Removing " + String.valueOf(number) + " item(s) with id " + String.valueOf(item_id));
             } catch (Exception e) {
 
             }

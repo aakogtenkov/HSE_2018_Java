@@ -1,6 +1,6 @@
 abstract public class Character {
-    protected Inventory inventory;
-    protected String name;
+    protected Inventory inventory = null;
+    protected String name = null;
 
     abstract public void process();
 

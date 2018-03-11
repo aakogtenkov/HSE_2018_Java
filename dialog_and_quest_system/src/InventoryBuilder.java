@@ -8,7 +8,7 @@ public class InventoryBuilder {
 
     public void load(String filename) {
         String[] separators;
-        BufferedReader input = InputOutputHelper.openFile("data/separators.txt");
+        BufferedReader input = InputOutputHelper.openFile("./data/separators.txt");
         String s;
         try {
             s = input.readLine();
@@ -37,6 +37,8 @@ public class InventoryBuilder {
     }
 
     public Inventory buildInventory(String filename) {
-        return new Inventory(item_id_to_name, item_name_to_id);
+        Inventory inventory = new Inventory(item_id_to_name, item_name_to_id);
+        inventory.load(filename);
+        return inventory;
     }
 }

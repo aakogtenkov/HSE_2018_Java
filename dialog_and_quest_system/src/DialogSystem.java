@@ -18,8 +18,6 @@ public class DialogSystem {
     }
 
     public void lock_transition(int npc_id, int transition_id) {
-        System.out.println(npc_id);
-        System.out.println(transition_id);
         npc_dialogs.get(npc_id).lock_transition(transition_id);
     }
 

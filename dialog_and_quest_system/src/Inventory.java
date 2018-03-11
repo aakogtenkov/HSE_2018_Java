@@ -59,15 +59,14 @@ public class Inventory {
             return;
         }
         items.replace(item_id, Math.max(0, items.get(item_id) - number));
+        if (items.get(item_id) == 0) {
+            items.remove(item_id);
+        }
     }
 
     public void deleteItem(String item, int number) {
-        number = Math.max(0, number);
         int item_id = item_name_to_id.get(item);
-        if (!items.containsKey(item_id)) {
-            return;
-        }
-        items.replace(item_id, Math.max(0, items.get(item_id) - number));
+        deleteItem(item_id, number);
     }
 
     public boolean checkItemNumber(int item_id, int number) {
@@ -87,6 +86,7 @@ public class Inventory {
             result.append(items.get(item));
             result.append("\n");
         }
+        System.out.println(result.toString());
         return result.toString();
     }
 }

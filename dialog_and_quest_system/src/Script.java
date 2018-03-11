@@ -3,6 +3,7 @@ import java.util.TreeMap;
 
 public class Script implements RunnableScript{
     private ArrayList<RunnableScript> basic_scripts = new ArrayList<>();
+    private boolean result = true;
 
     public Script(ArrayList<String> script_description, DialogSystem dialogSystem, TreeMap<Integer, NPC> npcs) {
         for (String s : script_description) {
@@ -35,8 +36,16 @@ public class Script implements RunnableScript{
     }
 
     public void run() {
+        result = true;
         for (RunnableScript script : basic_scripts) {
-            script.run();
+            if (result) {
+                script.run();
+                result = script.isSuccess();
+            }
         }
+    }
+
+    public boolean isSuccess() {
+        return true;
     }
 }

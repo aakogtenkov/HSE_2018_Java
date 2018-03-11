@@ -18,4 +18,8 @@ public class DialogTransitionScript implements RunnableScript {
             dialogSystem.unlock_transition(npc_id, transition_id);
         }
     }
+
+    public boolean isSuccess() {
+        return true;
+    }
 }

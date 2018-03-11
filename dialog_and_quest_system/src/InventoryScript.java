@@ -30,7 +30,7 @@ public class InventoryScript implements RunnableScript{
         }
     }
 
-    public boolean getResult() {
+    public boolean isSuccess() {
         return operation_result;
     }
 }

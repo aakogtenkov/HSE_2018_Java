@@ -1,0 +1,68 @@
+#transition_id
+#parent_node_id
+#child_node_id
+#locked
+#answer_id
+#type_question [0 - usual; 1 - common]
+#question_id {if usual} OR keyword_ids {using |}
+#script {<script>\n[SCRIPT]\n</script>\n}
+
+name$Данила
+
+1$0$0$0$1$0$1
+<script>
+</script>
+2$0$0$0$2$0$2
+<script>
+unlock_keyword 11
+</script>
+3$0$1$0$3$0$3
+<script>
+unlock_keyword 10
+</script>
+4$1$0$0$4$0$4
+<script>
+unlock_transition 3 6
+lock_transition 3 3
+</script>
+5$1$0$0$5$0$5
+<script>
+</script>
+6$0$2$1$6$0$6
+<script>
+lock_transition 3 7
+check_item 0 1 1
+unlock_transition 3 7
+</script>
+7$2$0$1$7$0$7
+<script>
+add_item 0 1 -1
+add_item 3 1 1
+lock_transition 3 6
+lock_transition 3 -1
+unlock_transition 3 -5
+</script>
+8$2$0$0$8$0$8
+<script>
+</script>
+9$0$0$0$9$0$9
+<script>
+end_dialog 3
+end_dialog 0
+</script>
+
+-1$0$0$0$-1$1$1|10
+<script>
+</script>
+-2$0$0$0$-2$1$1|11
+<script>
+</script>
+-3$0$0$0$-3$1$2|10
+<script>
+</script>
+-4$0$0$0$-4$1$2|11
+<script>
+</script>
+-5$0$0$1$-5$1$1|10
+<script>
+</script>

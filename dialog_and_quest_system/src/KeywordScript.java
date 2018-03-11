@@ -17,4 +17,8 @@ public class KeywordScript implements RunnableScript {
             dialogSystem.unlock_keyword(keyword_id);
         }
     }
+
+    public boolean isSuccess() {
+        return true;
+    }
 }

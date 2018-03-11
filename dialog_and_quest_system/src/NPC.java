@@ -1,3 +1,5 @@
+import java.io.BufferedReader;
+
 public class NPC extends Character {
     protected boolean is_in_dialog = false;
     private NPCDialog dialog;
@@ -8,14 +10,31 @@ public class NPC extends Character {
         id = -1;
     }
 
+    public NPC(NPCDialog dialog, int id) {
+        this.dialog = dialog;
+        this.id = id;
+    }
+
     public NPC(Inventory inventory, NPCDialog dialog, int id) {
         this.inventory = inventory;
         this.dialog = dialog;
         this.id = id;
     }
 
-    public void load(String name) {
-        //TODO: implement
+    public void load(final InventoryBuilder inventoryBuilder) {
+        BufferedReader input = InputOutputHelper.openFile("./data/characters/npc-" + String.valueOf(id) + "-info.txt");
+        String s;
+        try {
+            s = input.readLine().trim();
+            String[] substr = InputOutputHelper.splitString(s, ' ');
+            if (substr.length == 2 && substr[0].equals("name")) {
+                this.name = substr[1];
+            }
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+        InputOutputHelper.closeFile(input);
+        this.inventory = inventoryBuilder.buildInventory("./data/inventory/npc-" + String.valueOf(id) + "-inventory.txt");
     }
 
     public int getId() {
