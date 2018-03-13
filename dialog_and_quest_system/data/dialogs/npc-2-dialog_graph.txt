@@ -7,34 +7,97 @@
 #question_id {if usual} OR keyword_ids {using |}
 #script {<script>\n[SCRIPT]\n</script>\n}
 
-name$Олежа
+name$Сеня
 
 1$0$0$0$1$0$1
 <script>
+unlock_keyword 13
 </script>
 2$0$0$0$2$0$2
 <script>
+unlock_keyword 11
 </script>
 3$0$0$0$3$0$3
 <script>
 </script>
-4$0$0$0$4$0$4
+4$0$1$0$4$0$4
 <script>
+unlock_keyword 15
 </script>
 5$0$1$0$5$0$5
 <script>
+end_dialog 2
+end_dialog 0
 </script>
-6$0$0$0$6$0$6
+6$1$0$0$6$0$6
 <script>
+unlock_transition 2 9
+lock_transition 2 4
 </script>
-7$1$0$0$7$0$7
+7$1$1$0$7$0$7
 <script>
 </script>
 8$1$0$0$8$0$8
 <script>
 </script>
-9$0$0$0$9$0$9
+9$0$2$1$9$0$9
 <script>
-end_dialog 2
-end_dialog 0
+lock_transition 2 10
+check_item 0 2 1
+unlock_transition 2 10
+</script>
+10$2$0$1$10$0$10
+<script>
+add_item 0 2 -1
+add_item 2 2 1
+lock_transition 2 9
+lock_transition 2 -10
+lock_transition 2 -11
+lock_transition 2 12
+unlock_transition 2 -12
+</script>
+11$2$0$0$11$0$11
+<script>
+</script>
+12$0$0$1$12$0$12
+<script>
+unlock_transition 2 -11
+lock_transition 2 -10
+</script>
+
+-1$0$0$0$-1$1$1|10
+<script>
+</script>
+-2$0$0$0$-2$1$1|11
+<script>
+</script>
+-3$0$0$0$-3$1$1|12
+<script>
+</script>
+-4$0$0$0$-4$1$1|13
+<script>
+</script>
+-5$0$0$0$-5$1$1|14
+<script>
+</script>
+-6$0$0$0$-6$1$2|11
+<script>
+</script>
+-7$0$0$0$-7$1$2|12
+<script>
+</script>
+-8$0$0$0$-8$1$2|13
+<script>
+</script>
+-9$0$0$0$-9$1$2|14
+<script>
+</script>
+-10$0$0$0$-10$1$1|15
+<script>
+</script>
+-11$0$0$1$-11$1$1|15
+<script>
+</script>
+-12$0$0$1$-12$1$1|15
+<script>
 </script>

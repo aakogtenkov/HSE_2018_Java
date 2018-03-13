@@ -11,6 +11,7 @@ name$Данила
 
 1$0$0$0$1$0$1
 <script>
+unlock_keyword 12
 </script>
 2$0$0$0$2$0$2
 <script>
@@ -47,8 +48,24 @@ unlock_transition 3 -5
 </script>
 9$0$0$0$9$0$9
 <script>
+unlock_keyword 13
+</script>
+10$0$0$0$10$0$10
+<script>
 end_dialog 3
 end_dialog 0
+</script>
+11$3$0$0$11$0$11
+<script>
+lock_transition 3 -12
+unlock_transition 3 -13
+unlock_transition 2 12
+</script>
+12$3$0$0$12$0$12
+<script>
+add_item 0 2 1
+lock_transition 3 -12
+unlock_transition 3 -14
 </script>
 
 -1$0$0$0$-1$1$1|10
@@ -64,5 +81,33 @@ end_dialog 0
 <script>
 </script>
 -5$0$0$1$-5$1$1|10
+<script>
+</script>
+-6$0$0$0$-6$1$1|12
+<script>
+</script>
+-7$0$0$0$-7$1$1|13
+<script>
+unlock_keyword 11
+</script>
+-8$0$0$0$-8$1$2|12
+<script>
+</script>
+-9$0$0$0$-9$1$2|13
+<script>
+</script>
+-10$0$0$0$-10$1$1|14
+<script>
+</script>
+-11$0$0$0$-11$1$2|14
+<script>
+</script>
+-12$0$3$0$-12$1$1|15
+<script>
+</script>
+-13$0$0$1$-13$1$1|15
+<script>
+</script>
+-14$0$0$1$-14$1$1|15
 <script>
 </script>

@@ -32,6 +32,9 @@ public class Script implements RunnableScript{
             else if (substr.length == 4 && substr[0].equals("check_item")) {
                 basic_scripts.add(new InventoryScript(npcs, Integer.parseInt(substr[1]), Integer.parseInt(substr[2]), Integer.parseInt(substr[3]), 1));
             }
+            else {
+                System.out.println("WARNING: invalid script detected: " + s);
+            }
         }
     }
 

@@ -17,13 +17,13 @@ public class Main {
 
         player.load(inventoryBuilder);
         characters.put(0, player);
-        NPC npc = new NPC(new Inventory(null, null), dialogSystem.getDialog(1), 1);
+        NPC npc = new NPC(null, dialogSystem.getDialog(1), 1);
         npc.load(inventoryBuilder);
         characters.put(1, npc);
-        npc = new NPC(new Inventory(null, null), dialogSystem.getDialog(2), 2);
+        npc = new NPC(null, dialogSystem.getDialog(2), 2);
         npc.load(inventoryBuilder);
         characters.put(2, npc);
-        npc = new NPC(new Inventory(null, null), dialogSystem.getDialog(3), 3);
+        npc = new NPC(null, dialogSystem.getDialog(3), 3);
         npc.load(inventoryBuilder);
         characters.put(3, npc);
     }

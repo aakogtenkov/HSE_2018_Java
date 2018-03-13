@@ -114,11 +114,6 @@ public class NPCDialog {
             throw new RuntimeException();
         }
         InputOutputHelper.closeFile(input);
-
-        /*System.out.println(transitions.size());
-        System.out.println(keyword_transitions.size());
-        System.out.println(questions.size());
-        System.out.println(answers.size());*/
     }
 
     public String getPossibleQuestions(String[] keywords) {

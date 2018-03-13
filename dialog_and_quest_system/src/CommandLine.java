@@ -27,7 +27,7 @@ public class CommandLine {
                     npcs.get(npc_id).startDialog();
                 }
             } catch (Exception e) {
-
+                System.out.println("Unknown command.");
             }
         }
         else if (substr.length == 1 && substr[0].equals("/npc_list")) {
@@ -40,7 +40,7 @@ public class CommandLine {
                 int npc_id = Integer.parseInt(substr[1]);
                 npcs.get(npc_id).getInventory().showInventory();
             } catch (Exception e) {
-
+                System.out.println("Unknown command.");
             }
         }
         else if (substr.length == 4 && substr[0].equals("/add_item")) {
@@ -51,7 +51,7 @@ public class CommandLine {
                 npcs.get(npc_id).addItem(item_id, number);
                 System.out.println("Adding " + String.valueOf(number) + " item(s) with id " + String.valueOf(item_id));
             } catch (Exception e) {
-
+                System.out.println("Unknown command.");
             }
         }
         else if (substr.length == 4 && substr[0].equals("/remove_item")) {
@@ -62,7 +62,7 @@ public class CommandLine {
                 npcs.get(npc_id).removeItem(item_id, number);
                 System.out.println("Removing " + String.valueOf(number) + " item(s) with id " + String.valueOf(item_id));
             } catch (Exception e) {
-
+                System.out.println("Unknown command.");
             }
         }
         else {
