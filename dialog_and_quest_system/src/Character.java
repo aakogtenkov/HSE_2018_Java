@@ -1,4 +1,4 @@
-abstract public class Character {
+abstract public class Character implements Processable{
     protected Inventory inventory = null;
     protected String name = null;
 

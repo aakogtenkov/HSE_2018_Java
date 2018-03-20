@@ -14,7 +14,7 @@ public class Inventory {
 
     public void load(String filename) {
         String s;
-        BufferedReader input = InputOutputHelper.openFile(filename);
+        BufferedReader input = InputOutputHelper.getInstance().openFile(filename);
         try {
             while ((s = input.readLine()) != null) {
                 String[] substr = InputOutputHelper.splitString(s, ' ');
@@ -77,7 +77,14 @@ public class Inventory {
         return (items.get(item_id) - number >= 0);
     }
 
-    public String showInventory() {
+    public int getItemNumber(int item_id) {
+        if (items.containsKey(item_id)) {
+            return items.get(item_id);
+        }
+        return 0;
+    }
+
+    public String toString() {
         StringBuilder result = new StringBuilder();
         for (Integer item : items.keySet()) {
             result.append("  ");
@@ -86,7 +93,12 @@ public class Inventory {
             result.append(items.get(item));
             result.append("\n");
         }
-        System.out.println(result.toString());
         return result.toString();
+    }
+
+    public String showInventory() {
+        String result = this.toString();
+        System.out.println(result);
+        return result;
     }
 }

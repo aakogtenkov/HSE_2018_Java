@@ -8,7 +8,7 @@ public class InventoryBuilder {
 
     public void load(String filename) {
         String[] separators;
-        BufferedReader input = InputOutputHelper.openFile("./data/separators.txt");
+        BufferedReader input = InputOutputHelper.getInstance().openFile("./data/separators.txt");
         String s;
         try {
             s = input.readLine();
@@ -20,7 +20,7 @@ public class InventoryBuilder {
 
         item_id_to_name = new TreeMap<>();
         item_name_to_id = new HashMap<>();
-        input = InputOutputHelper.openFile(filename);
+        input = InputOutputHelper.getInstance().openFile(filename);
         try {
             while ((s = input.readLine()) != null) {
                 String[] substr = InputOutputHelper.splitString(s, separators[0].charAt(0));

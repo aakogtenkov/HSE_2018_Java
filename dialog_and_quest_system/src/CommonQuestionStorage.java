@@ -9,7 +9,7 @@ public class CommonQuestionStorage {
     private HashMap<String, Integer> keyword_to_question = new HashMap<>();
 
     public void load(String filename) {
-        BufferedReader input = InputOutputHelper.openFile(filename);
+        BufferedReader input = InputOutputHelper.getInstance().openFile(filename);
         String s;
         String[] substr;
         try {

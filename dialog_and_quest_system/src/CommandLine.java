@@ -1,6 +1,6 @@
 import java.util.TreeMap;
 
-public class CommandLine {
+public class CommandLine implements Processable{
     private TreeMap<Integer, NPC> npcs;
 
     public CommandLine(TreeMap<Integer, NPC> npcs) {
@@ -8,7 +8,7 @@ public class CommandLine {
     }
 
     public void process() {
-        String s = InputOutputHelper.readline();
+        String s = InputOutputHelper.getInstance().readline();
         String[] substr = InputOutputHelper.splitString(s, ' ');
         if (substr.length == 1 && substr[0].equals("/help")) {
             System.out.println("Available commands:");

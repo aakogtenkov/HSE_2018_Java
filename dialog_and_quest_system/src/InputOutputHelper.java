@@ -3,25 +3,46 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class InputOutputHelper {
+    private static InputOutputHelper instance = null;
+    private String inputCharset = "utf-8";
+    private String fileCharset = "windows-1251";
+    private Scanner inputScanner = new Scanner(System.in, "utf-8");
 
-    private static Scanner inputScanner = new Scanner(System.in, "utf-8");
+    public InputOutputHelper(String inputCharset, String fileCharset) {
+        this.inputCharset = inputCharset;
+        this.fileCharset = fileCharset;
+        this.inputScanner = new Scanner(System.in, inputCharset);
+        instance = this;
+    }
 
-    public static String readline() {
+    public InputOutputHelper(String filename) {
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(filename)));
+            this.inputCharset = reader.readLine().trim();
+            this.fileCharset = reader.readLine().trim();
+            this.inputScanner = new Scanner(System.in, inputCharset);
+            instance = this;
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+    }
+
+    public String readline() {
         return inputScanner.nextLine().trim();
     }
 
-    /*public static void printString(String s) {
+    public void printString(String s) {
         try {
-            PrintWriter writer = new PrintWriter(new OutputStreamWriter(System.out, "windows-1251"),true);
+            PrintWriter writer = new PrintWriter(new OutputStreamWriter(System.out, inputCharset),true);
             writer.println(s);
         } catch (Exception e) {
             throw new RuntimeException();
         }
-    }*/
+    }
 
-    public static BufferedReader openFile(String filename) {
+    public BufferedReader openFile(String filename) {
         try {
-            return new BufferedReader(new InputStreamReader(new FileInputStream(filename),"windows-1251"));
+            return new BufferedReader(new InputStreamReader(new FileInputStream(filename), fileCharset));
         } catch (Exception e) {
             throw new RuntimeException();
         }
@@ -53,5 +74,12 @@ public class InputOutputHelper {
             res[i] = result.get(i);
         }
         return res;
+    }
+
+    public static InputOutputHelper getInstance() {
+        if (instance == null) {
+            throw new RuntimeException("InputOutputHelper did not initialized.");
+        }
+        return instance;
     }
 }

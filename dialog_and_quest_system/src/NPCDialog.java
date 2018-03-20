@@ -2,7 +2,7 @@ import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
-public class NPCDialog {
+public class NPCDialog implements Processable {
     private String npcName = "";
     private ArrayList<DialogTransition> transitions = new ArrayList<>();
     private ArrayList<KeywordTransition> keyword_transitions = new ArrayList<>();
@@ -22,9 +22,9 @@ public class NPCDialog {
         this.npcName = npcName;
     }
 
-    public void load(String start_filename, DialogSystem dialogSystem, TreeMap<Integer, NPC> npcs) {
+    private String[] loadSeparators(String filename) {
         String[] separators;
-        BufferedReader input = InputOutputHelper.openFile("data/separators.txt");
+        BufferedReader input = InputOutputHelper.getInstance().openFile("./data/separators.txt");
         String s;
         try {
             s = input.readLine();
@@ -33,8 +33,12 @@ public class NPCDialog {
             throw new RuntimeException();
         }
         InputOutputHelper.closeFile(input);
+        return separators;
+    }
 
-        input = InputOutputHelper.openFile(start_filename + "-unknown_answers.txt");
+    private void loadUnknownAnswers(String filename) {
+        BufferedReader input = InputOutputHelper.getInstance().openFile(filename);
+        String s;
         try {
             while ((s = input.readLine()) != null) {
                 unknown_question_answers.add(s);
@@ -43,8 +47,11 @@ public class NPCDialog {
             throw new RuntimeException();
         }
         InputOutputHelper.closeFile(input);
+    }
 
-        input = InputOutputHelper.openFile(start_filename + "-questions.txt");
+    private TreeMap<Integer, String> loadQuestions(String filename, String[] separators) {
+        BufferedReader input = InputOutputHelper.getInstance().openFile(filename);
+        String s;
         TreeMap<Integer, String> questions = new TreeMap<>();
         try {
             while ((s = input.readLine()) != null) {
@@ -58,8 +65,12 @@ public class NPCDialog {
             throw new RuntimeException();
         }
         InputOutputHelper.closeFile(input);
+        return questions;
+    }
 
-        input = InputOutputHelper.openFile(start_filename + "-answers.txt");
+    private TreeMap<Integer, String> loadAnswers(String filename, String[] separators) {
+        BufferedReader input = InputOutputHelper.getInstance().openFile(filename);
+        String s;
         TreeMap<Integer, String> answers = new TreeMap<>();
         try {
             while ((s = input.readLine()) != null) {
@@ -73,8 +84,18 @@ public class NPCDialog {
             throw new RuntimeException();
         }
         InputOutputHelper.closeFile(input);
+        return answers;
+    }
 
-        input = InputOutputHelper.openFile(start_filename + "-dialog_graph.txt");
+    public void load(String start_filename, DialogSystem dialogSystem, TreeMap<Integer, NPC> npcs) {
+        String[] separators = loadSeparators("./data/separators.txt");
+        loadUnknownAnswers(start_filename + "-unknown_answers.txt");
+
+        TreeMap<Integer, String> questions = loadQuestions(start_filename + "-questions.txt", separators);
+        TreeMap<Integer, String> answers = loadAnswers(start_filename + "-answers.txt", separators);
+
+        BufferedReader input = InputOutputHelper.getInstance().openFile(start_filename + "-dialog_graph.txt");
+        String s;
         try {
             while ((s = input.readLine()) != null) {
                 String[] substr = InputOutputHelper.splitString(s, separators[0].charAt(0));
@@ -224,7 +245,7 @@ public class NPCDialog {
     public void process() {
         System.out.println(this.getPossibleQuestions(cur_keyword_ids));
         System.out.flush();
-        String input = InputOutputHelper.readline().toLowerCase();
+        String input = InputOutputHelper.getInstance().readline().toLowerCase();
         String[] substr = InputOutputHelper.splitString(input, ' ');
         if (substr.length == 1) {
             try {

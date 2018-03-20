@@ -5,8 +5,11 @@ public class Main {
     private TreeMap<Integer, NPC> characters;
     private Player player;
     private InventoryBuilder inventoryBuilder;
+    private InputOutputHelper inputOutputHelper;
 
     private void init() {
+        inputOutputHelper = new InputOutputHelper("./charset_info.txt");
+
         characters = new TreeMap<>();
         player = new Player(new CommandLine(characters));
         dialogSystem = new DialogSystem();

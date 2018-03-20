@@ -22,7 +22,7 @@ public class NPC extends Character {
     }
 
     public void load(final InventoryBuilder inventoryBuilder) {
-        BufferedReader input = InputOutputHelper.openFile("./data/characters/npc-" + String.valueOf(id) + "-info.txt");
+        BufferedReader input = InputOutputHelper.getInstance().openFile("./data/characters/npc-" + String.valueOf(id) + "-info.txt");
         String s;
         try {
             s = input.readLine().trim();
