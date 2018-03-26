@@ -4,11 +4,11 @@ import java.util.TreeMap;
 
 public class NPCDialog implements Processable {
     private String npcName = "";
-    private ArrayList<DialogTransition> transitions = new ArrayList<>();
+    private ArrayList<UnconditionalTransition> transitions = new ArrayList<>();
     private ArrayList<KeywordTransition> keyword_transitions = new ArrayList<>();
     private int cur_node_id = 0;
     private int start_node_id = 0;
-    private ArrayList<DialogTransition> cur_questions = new ArrayList<>();
+    private ArrayList<UnconditionalTransition> cur_questions = new ArrayList<>();
     private ArrayList<KeywordTransition> cur_keyword_questions = new ArrayList<>();
     private ArrayList<String> unknown_question_answers = new ArrayList<>();
     private int[] cur_keyword_ids = new int[]{};
@@ -117,14 +117,14 @@ public class NPCDialog implements Processable {
                     Script script = new Script(script_info, dialogSystem, npcs);
                     if (type_question == 0) {
                         int question_id = Integer.parseInt(substr[6]);
-                        transitions.add(new DialogTransition(id, parent_id, child_id, locked, script, question_id, answer_id, questions, answers));
+                        transitions.add(new UnconditionalTransition(id, parent_id, child_id, locked, script, question_id, answer_id, questions, answers));
                     } else if (type_question >= 1) {
                         String[] __keyword_ids = InputOutputHelper.splitString(substr[6], separators[1].charAt(0));
                         int[] keyword_ids = new int[__keyword_ids.length];
                         for (int i = 0; i < __keyword_ids.length; i++) {
                             keyword_ids[i] = Integer.parseInt(__keyword_ids[i]);
                         }
-                        keyword_transitions.add(new KeywordTransition(id, parent_id, child_id, locked, script, answer_id, keyword_ids, questions, answers, commonQuestionStorage));
+                        keyword_transitions.add(new KeywordTransition(id, parent_id, child_id, locked, script, answer_id, keyword_ids, answers, commonQuestionStorage));
                     }
                 }
                 else if (substr.length == 2 && substr[0].equals("name")) {
@@ -156,7 +156,7 @@ public class NPCDialog implements Processable {
         this.cur_keyword_ids = keyword_ids;
         StringBuilder result = new StringBuilder();
         int counter = 1;
-        for (DialogTransition transition : transitions) {
+        for (UnconditionalTransition transition : transitions) {
             if (transition.getParent() == cur_node_id && !transition.isLocked()) {
                 result.append("  ");
                 result.append(counter);
@@ -217,7 +217,7 @@ public class NPCDialog implements Processable {
     }
 
     public void lock_transition(int transition_id) {
-        for (DialogTransition transition : transitions) {
+        for (UnconditionalTransition transition : transitions) {
             if (transition.getId() == transition_id) {
                 transition.lock();
             }
@@ -230,7 +230,7 @@ public class NPCDialog implements Processable {
     }
 
     public void unlock_transition(int transition_id) {
-        for (DialogTransition transition : transitions) {
+        for (UnconditionalTransition transition : transitions) {
             if (transition.getId() == transition_id) {
                 transition.unlock();
             }

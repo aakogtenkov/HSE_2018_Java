@@ -1,31 +1,21 @@
 import java.util.TreeMap;
 
-public class DialogTransition {
-    protected int id = 0;
-    protected int parent_id = 0;
-    protected int child_id = 0;
-    protected boolean locked = false;
-    protected RunnableScript script = null;
-    protected int question_id = 0;
-    protected int answer_id = 0;
-    protected TreeMap<Integer, String> questions = new TreeMap<>();
-    protected TreeMap<Integer, String> answers = new TreeMap<>();
+public abstract class DialogTransition {
+    private boolean locked;
+    private int child_id;
+    private int parent_id;
+    private int id;
+    private RunnableScript script;
+    private int answer_id;
+    private TreeMap<Integer, String> answers = new TreeMap<>();
 
-    public DialogTransition() {
-
-    }
-
-    public DialogTransition(int id, int parent_id, int child_id, boolean locked,
-                            RunnableScript script, int question_id, int answer_id,
-                            TreeMap<Integer, String> questions, TreeMap<Integer, String> answers) {
-        this.id = id;
-        this.parent_id = parent_id;
-        this.child_id = child_id;
+    public DialogTransition(int id, int parent_id, int child_id, boolean locked, RunnableScript script, int answer_id, TreeMap<Integer, String> answers) {
         this.locked = locked;
+        this.child_id = child_id;
+        this.parent_id = parent_id;
+        this.id = id;
         this.script = script;
-        this.question_id = question_id;
         this.answer_id = answer_id;
-        this.questions = questions;
         this.answers = answers;
     }
 
@@ -37,6 +27,10 @@ public class DialogTransition {
         locked = false;
     }
 
+    public boolean isLocked() {
+        return locked;
+    }
+
     public int getChild() {
         return child_id;
     }
@@ -45,30 +39,28 @@ public class DialogTransition {
         return parent_id;
     }
 
+    protected TreeMap<Integer, String> getAnswers() {
+        return answers;
+    }
+
     public int getId() {
         return id;
-    }
-
-    public String makeTransition() {
-        if (script != null) {
-            script.run();
-        }
-        return answers.get(answer_id);
-    }
-
-    public boolean isLocked() {
-        return locked;
-    }
-
-    public int getQuestionId() {
-        return question_id;
     }
 
     public int getAnswerId() {
         return answer_id;
     }
 
-    public String getQuestion() {
-        return questions.get(question_id);
+    public String getAnswer() {
+        return answers.get(answer_id);
+    }
+
+    abstract public String getQuestion();
+
+    public String makeTransition() {
+        if (script != null) {
+            script.run();
+        }
+        return answers.get(answer_id);
     }
 }
