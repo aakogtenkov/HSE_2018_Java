@@ -3,6 +3,8 @@
     <output-path>$PROJECT_DIR$/out/artifacts/dialog_and_quest_system_jar</output-path>
     <root id="archive" name="dialog_and_quest_system.jar">
       <element id="module-output" name="dialog_and_quest_system" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/hamcrest-core-1.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/junit-4.12.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>
