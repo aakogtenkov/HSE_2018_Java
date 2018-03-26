@@ -25,9 +25,10 @@ public class CommandLine implements Processable{
                 if (npc_id != 0) {
                     npcs.get(0).startDialog();
                     npcs.get(npc_id).startDialog();
+                    System.out.println("In dialog with " + npcs.get(npc_id).getName() + ".\n");
                 }
             } catch (Exception e) {
-                System.out.println("Unknown command.");
+                System.out.println("Unknown command (use '/talk [npc id]')");
             }
         }
         else if (substr.length == 1 && substr[0].equals("/npc_list")) {
@@ -40,7 +41,7 @@ public class CommandLine implements Processable{
                 int npc_id = Integer.parseInt(substr[1]);
                 npcs.get(npc_id).getInventory().showInventory();
             } catch (Exception e) {
-                System.out.println("Unknown command.");
+                System.out.println("Unknown command (use '/show_inventory [npc id]')");
             }
         }
         else if (substr.length == 4 && substr[0].equals("/add_item")) {
@@ -51,7 +52,7 @@ public class CommandLine implements Processable{
                 npcs.get(npc_id).addItem(item_id, number);
                 System.out.println("Adding " + String.valueOf(number) + " item(s) with id " + String.valueOf(item_id));
             } catch (Exception e) {
-                System.out.println("Unknown command.");
+                System.out.println("Unknown command (use '/add_item [npc id] [item id] [number of items]')");
             }
         }
         else if (substr.length == 4 && substr[0].equals("/remove_item")) {
@@ -62,7 +63,7 @@ public class CommandLine implements Processable{
                 npcs.get(npc_id).removeItem(item_id, number);
                 System.out.println("Removing " + String.valueOf(number) + " item(s) with id " + String.valueOf(item_id));
             } catch (Exception e) {
-                System.out.println("Unknown command.");
+                System.out.println("Unknown command (use '/remove_item [npc id] [item id] [number of items]')");
             }
         }
         else {

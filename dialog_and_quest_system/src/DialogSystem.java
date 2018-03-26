@@ -4,7 +4,7 @@ public class DialogSystem {
     private TreeMap<Integer, NPCDialog> npc_dialogs = new TreeMap<>();
     private CommonQuestionStorage commonQuestionStorage = new CommonQuestionStorage();
 
-    public void load(int[] npc_ids, TreeMap<Integer, NPC> npcs) {
+    public void load(Integer[] npc_ids, TreeMap<Integer, NPC> npcs) {
         commonQuestionStorage.load("./data/keywords/keywords.txt");
         for (int i = 0; i < npc_ids.length; i++) {
             NPCDialog dialog = new NPCDialog(commonQuestionStorage);
